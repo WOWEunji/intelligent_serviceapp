@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+	<script language="javascript" src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=4a0b49b3-d1e6-36b9-8d35-6b21fe6edb66"></script>
+	<script src = "location.js"> </script>
+	<script type="text/javascript">
+		var map;
+		function initialize(){
+		    map = new Tmap.Map({div:'map_div', width:'50%', height:'200px'});
+		    map.setCenter(new Tmap.LonLat(14135911, 4518361),15);
+		    var c_ll = map.getCenter();
+		    loadGetAddressFromLonLat(c_ll);
+		    map.addControls([
+		    new Tmap.Control.KeyboardDefaults(),
+		    new Tmap.Control.MousePosition(),
+		    new Tmap.Control.OverviewMap()
+			]);
+			var markerLayer = new Tmap.Layer.Markers();
+		map.addLayer(markerLayer);
+
+		var lonlat = new Tmap.LonLat(14135893.887852, 4518348.1852606);
+		var size = new Tmap.Size(24, 38);
+		var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+		var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+ 		var marker = new Tmap.Marker(lonlat, icon);
+ 		markerLayer.addMarker(marker);
+		}
+
+		
+
+		function loadGetAddressFromLonLat(ll){
+		    var tdata = new Tmap.TData();
+		    tdata.events.register("onComplete", tdata, onCompleteLoadGetAddressFromLonLat);
+		    var optionObj = {version:1};
+		    tdata.getAddressFromLonLat(ll, optionObj);
+		}
+		function onCompleteLoadGetAddressFromLonLat(){
+		    console.log(this.responseXML);
+		}
+
+		function myLoaction()
+		{
+			if(navigator.geolocation)
+			{
+				return navigator.geolocation.getCurrentPosition(successHandler);
+			}
+			else
+			{
+				alert("no support geolocation");
+				return 0;
+			}
+		}
+		function successHandler(position)
+		{
+		//	map.setCenter(new Tmap.LonLat(position.coords.latitude,position.coords.longitude), 14);
+//			console.log(position.coords.latitude, position.coords.longitude);
+//			c_ll = new Tmap.LonLat(position.coords.latitude, position.coords.longitude);
+		}
+		window.onload = function() {
+    	initialize();
+		}
+	</script>
+	<title></title>
+</head>
+<body>
+	<div id = "map_div"></div>
+</body>
+</html>

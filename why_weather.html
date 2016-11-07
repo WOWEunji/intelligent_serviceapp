@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src = "http://code.jquery.com/jquery-2.2.0.js"></script>
+	<script>
+	$(document).ready(function()
+	{
+		var url = "http://apis.skplanetx.com/weather/current/minutely?version=1&lat=37.5714000000&lon=126.9658000000&city=null&county=null&village=null&stnid=null&appKey=4a0b49b3-d1e6-36b9-8d35-6b21fe6edb66",
+		parameters = [
+		'appKey=4a0b49b3-d1e6-36b9-8d35-6b21fe6edb66',
+		'format = json',
+		'version = 1'
+		];
+		$.getJSON(url, JSONparse);
+		function JSONparse(data)
+		{
+			console.log(data);
+			//var json_obj = $.parseJSON(data);
+			alert("a");
+			alert(data.result.message);
+			document.write(data.result.message);
+			document.write(data.weather.minutely[0].sky.name);
+		//	var output = "<ul>";
+		//	output += "<li>" + json_obj.result.message + "</li>" + "</ul>";
+		//	$('span').html(output);
+		}
+
+	});
+	</script>
+	<title></title>
+</head>
+<body>
+
+</body>
+</html>

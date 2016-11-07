@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style>
+@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+ 
+div{
+ 
+}
+ 
+body{
+ text-align:center;
+ background-image:url('img/back.jpg');
+ font-family: 'NanumGothic', serif;
+ font-size:large;
+}
+#cw{
+float:left;
+text-align:center;
+ background-image:url('img/divback.png');
+ width:500px;
+ height:500px;
+ padding:8px;
+ margin:8px;
+ border:1px solid white;
+ 
+}
+#fw{
+float:left;
+background-image:url('img/divback.png');
+ 
+ width:500px;
+ height:500px;
+ padding:8px;
+ margin:8px;
+ border:1px solid white;
+ overflow-y:scroll;
+}
+#map{
+float:left;
+ background-image:url('img/divback.png');
+ width:500px;
+ height:500px;
+ padding:8px;
+ margin:8px;
+ border:1px solid white;
+}
+#weeks{
+float:left;
+ text-align:center;
+ background:#FAECC5;
+ width:200px;
+ height:250px;
+ padding:8px;
+ margin:8px;
+ border:1px solid black;
+ 
+}
+#content{
+ margin:0 auto;
+ margin-top: 100px;
+ width:1800px;
+ height:900px;
+}
+</style>
+<script src="http://code.jquery.com/jquery-1.7.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script>
+function displayCw(xml){
+ var output='';
+ var buildDate = 'Update: '+$(xml).find('lastBuildDate').text();
+ var location = 'Location: '+$(xml).find('yweather\\:location, location').attr('country')+' '+$(xml).find('yweather\\:location, location').attr('city');
+ var wind = 'Wind: '+'[냉기]'+$(xml).find('yweather\\:wind, wind').attr('chill')+', [방향]'+$(xml).find('yweather\\:wind, wind').attr('direction')+', [속도]'+$(xml).find('yweather\\:wind, wind').attr('speed');
+ var atmosphere ='대기: '+'[습도]'+$(xml).find('yweather\\:atmosphere, atmosphere').attr('humidity')+', [시야]'+$(xml).find('yweather\\:atmosphere, atmosphere').attr('visibility')+', [기압]'+$(xml).find('yweather\\:atmosphere, atmosphere').attr('pressure');
+ var astronomy = '일출/일몰: '+'[일출]'+$(xml).find('yweather\\:astronomy, astronomy').attr('sunrise')+', [일몰]'+$(xml).find('yweather\\:astronomy, astronomy').attr('sunset');
+ var cur = '현재 날씨: '+'[상태]'+$(xml).find('yweather\\:condition, condition').attr('text')+', [온도]'+$(xml).find('yweather\\:condition, condition').attr('temp')+'C';
+ var curImg ='http://l.yimg.com/a/i/us/we/52/'+$(xml).find('yweather\\:condition, condition').attr('code')+'.gif';
+ 
+ output+='<h5>'+buildDate+'</h5>';
+ output+='<h5>'+location+'</h5>';
+ output+='<h5>'+wind+'</h5>';
+ output+='<h5>'+atmosphere+'</h5>';
+ output+='<h5>'+astronomy+'</h5><br><br>';
+ 
+ output+='<img src=\"'+curImg+'\" width="60">';
+ output+='<h5>'+cur+'</h5>';
+ 
+ $('#cw').html(output);
+};
+function displayFw(xml){
+ var output='';
+ var weeks = $(xml).find('yweather\\:forecast, forecast');
+ weeks.each(function(index,item){
+  with(item){
+   var day = $(this).attr('day');
+   var date = $(this).attr('date');
+   var low = $(this).attr('low');
+   var high = $(this).attr('high');
+   var text = $(this).attr('text');
+   var code = $(this).attr('code');
+   var curImg ='http://l.yimg.com/a/i/us/we/52/'+code+'.gif';
+   output+='<div id="weeks">';
+   output+='<h3>'+day+'('+date+')</h3>';
+   output+='<h5>'+text+'</h5>';
+   output+='<img src="'+curImg+'">';
+   output+='<h5>최저: '+low+' / 최고: '+high+'C</h5>';
+   output+='</div>';
+  
+   }
+ });
+ $('#fw').html(output);
+  
+ //alert(day.length);
+};
+function displayMap(xml){
+ var output='';
+ var plat = $(xml).find('geo\\:lat, lat').text();
+ var plong = $(xml).find('geo\\:long, long').text();
+ 
+ var center = new google.maps.LatLng(plat,plong);
+ var mapArea = document.querySelector('#map'); //google map은 jQuery사용안됨.
+ var map = new google.maps.Map(mapArea, {
+  mapTypeId:google.maps.MapTypeId.ROADMAP,
+  zoom:10,
+  center:center
+ }); //(어디에 지도를 뿌릴 것인지, 옵션)
+ 
+ var marker = new google.maps.Marker({
+     position: center,
+     title:"Hello"
+ });
+ marker.setMap(map);
+};
+ 
+function requestAjax(){
+ var uri = 'http://weather.yahooapis.com/forecastrss?w=1132599&u=c';
+ $.ajax({
+  url:uri, //type 디폴트는 GET 방식
+  success:function(xml){
+   displayCw(xml);
+   displayFw(xml);
+   displayMap(xml);
+  }
+ });
+};
+ $(document).ready(function(){
+  
+  
+  requestAjax();
+  
+  
+ });
+</script>
+</head>
+<body>
+<div id="content">
+<div id="cw"></div>
+<div id="fw"></div>
+<div id="map"></div>
+</div>
+</body>
+</html>

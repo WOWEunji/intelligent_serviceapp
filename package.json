@@ -1,0 +1,24 @@
+{
+  "name": "eunji",
+  "version": "1.0.0",
+  "description": "The OpenShift `diy` cartridge documentation can be found at:",
+  "main": "app-express.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "glup": "^1.0.14",
+    "gulp-nodemon": "^2.2.1",
+    "mongoskin": "^0.6.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://57e2762d89418bc61f0002db@eunji-service.cloud.or.kr/~/git/eunji.git/"
+  },
+  "author": "",
+  "license": "ISC"
+}

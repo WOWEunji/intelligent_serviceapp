@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>	ajax samplecode </title>
+		<script>
+			function loadXMLDoc()
+			{
+				var xmlhttp;
+				if(window.XMLHttpRequest)
+				{
+					xmlhttp = new XMLHttpRequest();
+				}
+				else
+				{
+					xmlhttp = new ActiveXObject ("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function ()
+				{
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						document.getElementBVyId("myDiv").innerHTML = xmlhttp.responseText;
+					}
+				}
+
+				xmlhttp.open("POST", "ajax_test.asp", true);
+				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xmlhttp.send("fname=Henry&lname=Fodr");
+			}
+		</script>
+	</head>
+	<body>
+
+		<div id = "myDiv"><h2>Let AJAX CHANGE THIS TEXT</h2></div>
+		<button type = "button" onclick = "loadXMLDoc()">CHANGE CONTENT</button>
+	</body>
+</html>
