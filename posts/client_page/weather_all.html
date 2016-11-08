@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src = "http://code.jquery.com/jquery-2.2.0.js"></script>
+	<script>
+	$(document).ready(function()
+	{
+		var url = "http://apis.skplanetx.com/weather/wmap/forecast?version=1&proj=4326&type=1&factor=precipitation&appKey=4a0b49b3-d1e6-36b9-8d35-6b21fe6edb66",
+		parameters = [
+		'appKey=4a0b49b3-d1e6-36b9-8d35-6b21fe6edb66',
+		'format = json',
+		'version = 1'
+		];
+		$.getJSON(url, JSONparse);
+		function JSONparse(data)
+		{
+			console.log(data)
+		}
+	});
+	</script>
+	<title></title>
+</head>
+<body>
+
+</body>
+</html>
