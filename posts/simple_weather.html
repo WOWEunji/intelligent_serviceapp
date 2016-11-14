@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src = "http://code.jquery.com/jquery-2.2.0.js"></script>
+	<script>
+	$(document).ready(function()
+	{
+		var url = "http://apis.skplanetx.com/weather/summary?version=1&lat=37.5714000000&lon=126.9658000000&appKey=4a0b49b3-d1e6-36b9-8d35-6b21fe6edb66",
+		parameters = [
+		'appKey=4a0b49b3-d1e6-36b9-8d35-6b21fe6edb66',
+		'format = json',
+		'version = 1'
+		];
+		$.getJSON(url, JSONparse);
+		function JSONparse(data)
+		{
+			document.write(data.weather.summary[0].yesterday.sky.name)
+			document.write(data.weather.summary[0].today.sky.name)			
+			document.write(data.weather.summary[0].tomorrow.sky.name)
+		}
+	});
+	</script>
+	<title></title>
+</head>
+<body>
+
+</body>
+</html>
