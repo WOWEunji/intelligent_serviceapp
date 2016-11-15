@@ -52,15 +52,19 @@ io.sockets.on('connection', function (socket){
 		extract_weather(stringdata.pop())
 		for(var i = 0; i<words.length; i++)
 		{
-			Chat.find({etc : words[i]}, function (err, docs)
+			Chat.find({word : words[i]}, function (err, docs)
 			{
 				for(var i = 0, size= docs.length; i<size; i++)
 				{
-					var url = docs[i].url;
-					
-					console.log(url);
-					socket.emit('data', words[i]);
-					socket.emit('responseurl', url);
+					if(words.indexOf(docs[i].etc)!=-1)
+					{
+						console.log('send');
+						var url = docs[i].url;
+						var send_data = docs[i].etc;
+						console.log(url);
+						socket.emit('data', send_data);
+						socket.emit('responseurl', url);
+					}	
 				}
 			})
 		}

@@ -149,12 +149,28 @@
       document.write(url);
         function JSONparse(data)
       {
-        document.write(data.weather.summary[0].yesterday.sky.name)
-        document.write(data.weather.summary[0].today.sky.name)      
-        document.write(data.weather.summary[0].tomorrow.sky.name)
+          print_data(db_data, data);
+        // document.write(data.weather.summary[0].yesterday.sky.name)
+        // document.write(data.weather.summary[0].today.sky.name)      
+        // document.write(data.weather.summary[0].tomorrow.sky.name)
       }
     })
 
+    function print_data(word,json_data)
+    {
+      if(word == "오늘")
+      {
+        document.write(json_data.weather.summary[0].today.sky.name)
+      }
+      else if(word == "내일")
+      {
+        document.write(json_data.weather.summary[0].tomorrow.sky.name)
+      }
+      if(word == "어제")
+      {
+        document.write(json_data.weather.summary[0].yesterday.sky.name)
+      }
+    }
     function input_array(s)
     {
       if(letter.length>0)
