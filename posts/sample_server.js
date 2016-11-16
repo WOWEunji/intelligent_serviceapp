@@ -78,13 +78,14 @@ io.sockets.on('connection', function (socket){
 				}
 				if(status_word!=null&&count==0)
 				{
+					console.log('send');
 					socket.emit('Status', status_word);
 					socket.emit('data', send_data);
 					socket.emit('responseurl', url);
 				}
 			})
 		}
-		if(status_word == null)
+		if(status_word == null && count == 0)
 		{
 			for(var i = 0; i<words.length; i++)
 			{

@@ -143,6 +143,7 @@
       var url = data;
       if(db_status=="날씨")
        {
+        console.log('weather');
          url += "&lat="+lat+"&lon="+lon+appkey;
          JSON_send(url, db_status, db_data);
        }
@@ -153,6 +154,7 @@
       }
       else
       {
+        console.log('else');
         url+=appkey;
         JSON_send(url,db_status, db_data);
       }
@@ -176,37 +178,61 @@
 
     function print_data(status, word, json_data)
     {
-     if(word == "날씨")
+      console.log("happy")
+      console.log(status);
+     if(status == "날씨")
      {
-      var string_info;
-      var day_info;
-       if(word == "오늘")
-      {
-        document.write(json_data.weather.summary[0].today.sky.name)
-        document.write("최고 온도", json_data.weather.summary[0].today.temperature.tmax)
-        document.write("최저 온도", json_data.weather.summary[0].today.temperature.tmin)
-      }
-      else if(word == "내일")
-      {
-        document.write(json_data.weather.summary[0].tomorrow.sky.name)
-        document.write("최고 온도", json_data.weather.summary[0].tomorrow.temperature.tmax)
-        document.write("최저 온도", json_data.weather.summary[0].tomorrow.temperature.tmin)
-      }
-      if(word == "어제")
-      {
-        document.write(json_data.weather.summary[0].yesterday.sky.name)
-         document.write("최고 온도", json_data.weather.summary[0].yesterday.temperature.tmax)
-        document.write("최저 온도", json_data.weather.summary[0].yesterday.temperature.tmin)
-      } 
-     }
-      else if (status == "세차")
-      {
-        document.write(json_data.weather.wIndex.carWash[0].comment)
-      }
-      else if(status == "대화")
-      {
-        document.write(json_data);
-      }
+        var string_info;
+        var day_info;
+
+         if(word == "오늘")
+        {
+          console.log("today");
+          document.write(json_data.weather.summary[0].today.sky.name)
+          document.write("최고 온도", json_data.weather.summary[0].today.temperature.tmax)
+          document.write("최저 온도", json_data.weather.summary[0].today.temperature.tmin)
+        }
+        else if(word == "내일")
+        {
+          document.write(json_data.weather.summary[0].tomorrow.sky.name)
+          document.write("최고 온도", json_data.weather.summary[0].tomorrow.temperature.tmax)
+          document.write("최저 온도", json_data.weather.summary[0].tomorrow.temperature.tmin)
+        }
+        else if(word == "어제")
+        {
+          document.write(json_data.weather.summary[0].yesterday.sky.name)
+           document.write("최고 온도", json_data.weather.summary[0].yesterday.temperature.tmax)
+          document.write("최저 온도", json_data.weather.summary[0].yesterday.temperature.tmin)
+        } 
+        else if(word == "자외선" || word == "자외선지수")
+        {
+          document.write(json_data.weather.wIndex.uvindex[0].day01.comment);
+        }
+        else if(word == "빨래")
+        {
+          document.write(json_data.weather.wIndex.laundry[0].day01.comment);
+        }
+        else if(word == "체감" || word =="체감온도")
+       {
+          document.write(json_data.weather.wIndex.wctIndex[0].current.index);
+          document.write("4시간 뒤 체감온도는");
+          document.write(json_data.weather.wIndex.wctIndex[0].forecast.index4hour);
+          document.write("입니다.");
+       }
+
+    }
+    else if (status == "세차")
+    {
+      document.write(json_data.weather.wIndex.carWash[0].comment)
+    }
+    else if(status == "대화")
+    {
+      document.write(json_data);
+    }
+        // else if(status == "체감" || status == "체감온도" || status=="온도")
+        // {
+
+        // }
     }
     function input_array(s)
     {
