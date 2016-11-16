@@ -128,6 +128,8 @@
     var db_status;
     socket.on('Status', function(data)
     {
+      console.log('status');
+      console.log(data);
       db_status = data;
     })
 
@@ -144,13 +146,15 @@
          url += "&lat="+lat+"&lon="+lon+appkey;
          JSON_send(url, db_status, db_data);
        }
-      else if(db_status == "인사")
+      else if(db_status == "대화")
       {
-        print_data(db_status, db_data, data);
+        console.log('data');
+        print_data(db_status, db_data, url);
       }
       else
       {
-        JSON_send(url,db_status, db_data, data);
+        url+=appkey;
+        JSON_send(url,db_status, db_data);
       }
       
     })
@@ -172,22 +176,36 @@
 
     function print_data(status, word, json_data)
     {
-      document.write(status + ":")
-      if(word == "오늘")
+     if(word == "날씨")
+     {
+      var string_info;
+      var day_info;
+       if(word == "오늘")
       {
         document.write(json_data.weather.summary[0].today.sky.name)
+        document.write("최고 온도", json_data.weather.summary[0].today.temperature.tmax)
+        document.write("최저 온도", json_data.weather.summary[0].today.temperature.tmin)
       }
       else if(word == "내일")
       {
         document.write(json_data.weather.summary[0].tomorrow.sky.name)
+        document.write("최고 온도", json_data.weather.summary[0].tomorrow.temperature.tmax)
+        document.write("최저 온도", json_data.weather.summary[0].tomorrow.temperature.tmin)
       }
       if(word == "어제")
       {
         document.write(json_data.weather.summary[0].yesterday.sky.name)
-      }
+         document.write("최고 온도", json_data.weather.summary[0].yesterday.temperature.tmax)
+        document.write("최저 온도", json_data.weather.summary[0].yesterday.temperature.tmin)
+      } 
+     }
       else if (status == "세차")
       {
         document.write(json_data.weather.wIndex.carWash[0].comment)
+      }
+      else if(status == "대화")
+      {
+        document.write(json_data);
       }
     }
     function input_array(s)

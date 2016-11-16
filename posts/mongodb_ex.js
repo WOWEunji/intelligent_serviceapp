@@ -21,7 +21,7 @@ var lon = 126.9658000000;
 var appkey = "&appKey=4a0b49b3-d1e6-36b9-8d35-6b21fe6edb66"
 var Chat = mongoose.model('Chat', userSchema);
 
-var data = new Chat({word: "대화", etc : "여자친구", url : "없습니다."})
+var data = new Chat({word: "날씨", etc : "자외선", url : "http://apis.skplanetx.com/weather/windex/uvindex?version=1"})
 
 data.save(function(err)
 {
@@ -29,21 +29,7 @@ data.save(function(err)
 		console.log('error ocurr =' + err)
 })
 
-var data = new Chat({word: "대화", etc : "안녕", url : "안녕하세요."})
-
-data.save(function(err)
-{
-	if(err)
-		console.log('error ocurr =' + err)
-})
-var data = new Chat({word: "대화", etc : "안녕하세요", url : "안녕하세요."})
-
-data.save(function(err)
-{
-	if(err)
-		console.log('error ocurr =' + err)
-})
-var data = new Chat({word: "대화", etc : "여자친구는", url : "없습니다."})
+var data = new Chat({word: "날씨", etc : "자외선지수", url : "http://apis.skplanetx.com/weather/windex/uvindex?version=1"})
 
 data.save(function(err)
 {
@@ -51,7 +37,7 @@ data.save(function(err)
 		console.log('error ocurr =' + err)
 })
 
-var data = new Chat({word: "대화", etc : "연애는", url : "없습니다."})
+var data = new Chat({word: "날씨", etc : "빨래", url : "http://apis.skplanetx.com/weather/windex/laundry?version=1"})
 
 data.save(function(err)
 {
@@ -59,7 +45,23 @@ data.save(function(err)
 		console.log('error ocurr =' + err)
 })
 
-var data = new Chat({word: "대화", etc : "연애", url : "없습니다."})
+var data = new Chat({word: "날씨", etc : "체감온도", url : "http://apis.skplanetx.com/weather/windex/wctindex?version=1"})
+
+data.save(function(err)
+{
+	if(err)
+		console.log('error ocurr =' + err)
+})
+
+var data = new Chat({word: "날씨", etc : "체감", url : "http://apis.skplanetx.com/weather/windex/wctindex?version=1"})
+
+data.save(function(err)
+{
+	if(err)
+		console.log('error ocurr =' + err)
+})
+
+var data = new Chat({word: "날씨", etc : "온도", url : "http://apis.skplanetx.com/weather/windex/wctindex?version=1"})
 
 data.save(function(err)
 {

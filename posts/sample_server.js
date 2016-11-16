@@ -47,12 +47,13 @@ io.sockets.on('connection', function (socket){
 //	console.log(socket)
 	socket.on('send_date', function (data)
 	{
-		var send_data;
-		var url;
-		var status_word;
+		var send_data = null;
+		var url = null;
+		var status_word = null;
 		var count =0;
 		stringdata.push(data)
 		extract_weather(stringdata.pop())
+
 		for(var i = 0; i<words.length; i++)
 		{
 			Chat.find({word : words[i]}, function (err, docs)
@@ -83,7 +84,26 @@ io.sockets.on('connection', function (socket){
 				}
 			})
 		}
-
+		if(status_word == null)
+		{
+			for(var i = 0; i<words.length; i++)
+			{
+				Chat.find({etc : words[i]}, function (err, docs)
+				{
+					for(var j = 0, size = docs.length; j<size; j++)
+					{
+						console.log(docs[j].word);
+						status_word = docs[j].word;
+						send_data = docs[j].etc;
+						url = docs[j].url
+						socket.emit('Status', status_word);
+						socket.emit('data', send_data);
+						socket.emit('responseurl', url);
+						console.log(url);
+					}
+				})	
+			}
+		}
 	})
 	// socket.on('getname', function ()
 	// {
