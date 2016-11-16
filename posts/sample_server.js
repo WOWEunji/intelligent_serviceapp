@@ -44,10 +44,13 @@ io.sockets.on('connection', function (socket){
 	id = socket.id;
 	var name = null;
 	console.log('connection')
-	console.log(socket)
+//	console.log(socket)
 	socket.on('send_date', function (data)
 	{
-
+		var send_data;
+		var url;
+		var status_word;
+		var count =0;
 		stringdata.push(data)
 		extract_weather(stringdata.pop())
 		for(var i = 0; i<words.length; i++)
@@ -56,15 +59,27 @@ io.sockets.on('connection', function (socket){
 			{
 				for(var i = 0, size= docs.length; i<size; i++)
 				{
+					status_word = docs[0].word;
+					send_data = docs[0].etc;
+					url = docs[0].url;
 					if(words.indexOf(docs[i].etc)!=-1)
 					{
+						count++;
 						console.log('send');
-						var url = docs[i].url;
-						var send_data = docs[i].etc;
+						status_word = docs[i].word;
+						url = docs[i].url;
+						send_data = docs[i].etc;
 						console.log(url);
+						socket.emit('Status', status_word);
 						socket.emit('data', send_data);
 						socket.emit('responseurl', url);
 					}	
+				}
+				if(status_word!=null&&count==0)
+				{
+					socket.emit('Status', status_word);
+					socket.emit('data', send_data);
+					socket.emit('responseurl', url);
 				}
 			})
 		}

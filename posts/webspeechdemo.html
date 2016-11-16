@@ -126,7 +126,7 @@
 
     var db_data;
     var db_status;
-    socket.on('word', function(data)
+    socket.on('Status', function(data)
     {
       db_status = data;
     })
@@ -139,25 +139,40 @@
     socket.on('responseurl', function(data)
     {
       var url = data;
-      url += "&lat="+lat+"&lon="+lon+appkey;
+      if(db_status=="날씨")
+       {
+         url += "&lat="+lat+"&lon="+lon+appkey;
+         JSON_send(url, db_status, db_data);
+       }
+      else if(db_status == "인사")
+      {
+        print_data(db_status, db_data, data);
+      }
+      else
+      {
+        JSON_send(url,db_status, db_data, data);
+      }
+      
+    })
+
+    function JSON_send(url, db_status, db_data)
+    {
       parameters = [
       'appKey=4a0b49b3-d1e6-36b9-8d35-6b21fe6edb66',
       'format = json',
       'version = 1'
       ];
       $.getJSON(url, JSONparse);
-      document.write(url);
+//      document.write(url);
         function JSONparse(data)
       {
-          print_data(db_data, data);
-        // document.write(data.weather.summary[0].yesterday.sky.name)
-        // document.write(data.weather.summary[0].today.sky.name)      
-        // document.write(data.weather.summary[0].tomorrow.sky.name)
+          print_data(db_status,db_data, data);
       }
-    })
+    }
 
-    function print_data(word,json_data)
+    function print_data(status, word, json_data)
     {
+      document.write(status + ":")
       if(word == "오늘")
       {
         document.write(json_data.weather.summary[0].today.sky.name)
@@ -169,6 +184,10 @@
       if(word == "어제")
       {
         document.write(json_data.weather.summary[0].yesterday.sky.name)
+      }
+      else if (status == "세차")
+      {
+        document.write(json_data.weather.wIndex.carWash[0].comment)
       }
     }
     function input_array(s)
