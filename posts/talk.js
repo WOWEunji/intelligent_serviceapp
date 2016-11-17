@@ -54,15 +54,15 @@ function jstalktheme_addmsg(type, name, time, msg)
 }
 
 
-function jstalktheme_testfunc()
+function jstalktheme_testfunc(user_type)
 {
-	var otxtmsg = document.getElementById("jstalktheme_testmsg");
+	var otxtmsg = document.getElementById("interim_span");
 	
 	var d = new Date();
 	var ampm = (d.getHours()>12 ?  "PM" : "AM");
 	var h = (d.getHours()>12 ? d.getHours()-12 : d.getHours());
 	var m = d.getMinutes();
 
-	test_type ^= 0x01;
+	test_type = user_type;
 	jstalktheme_addmsg(test_type, "DUMB", ampm+" "+h+":"+m, otxtmsg.value.replace("\n","<br />\n"));
 }

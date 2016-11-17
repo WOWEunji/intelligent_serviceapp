@@ -78,7 +78,7 @@ io.sockets.on('connection', function (socket){
 				}
 				if(status_word!=null&&count==0)
 				{
-					console.log('send');
+					console.log('send_s');
 					socket.emit('Status', status_word);
 					socket.emit('data', send_data);
 					socket.emit('responseurl', url);

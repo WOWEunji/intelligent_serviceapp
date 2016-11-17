@@ -1,66 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <meta charset="utf-8">
-  <head>
-    <script src = "http://code.jquery.com/jquery-2.2.0.js"></script>
-    <script src = "/socket.io/socket.io.js"></script>
-
-    <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
- <!--    <script src = "./location.js"></script>
- -->    <title>Speaking To Me</title>
-  </head> 
-  <body>
-    <h1 class="center" id="headline">HELLO</h1>
-    <div id="info">
-      <p id="info_start">SPEAKING TO ME</p>
-      <p id="info_speak_now">I'M LISTENING</p>
-      <p id="info_no_speech">No speech was detected. You may need to adjust your
-        <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-          microphone settings</a>.</p>
-      <p id="info_no_microphone" style="display:none">
-        No microphone was found. Ensure that a microphone is installed and that
-        <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-        microphone settings</a> are configured correctly.</p>
-      <p id="info_allow">Click the "Allow" button above to enable your microphone.</p>
-      <p id="info_denied">Permission to use microphone was denied.</p>
-      <p id="info_blocked">Permission to use microphone is blocked. To change,
-        go to chrome://settings/contentExceptions#media-stream</p>
-      <p id="info_upgrade">Web Speech API is not supported by this browser.
-         Upgrade to <a href="//www.google.com/chrome">Chrome</a>
-         version 25 or later.</p>
-    </div>
-    <div class="right">
-      <button id="start_button" onclick="startButton(event)">
-        START</button>
-    </div>
-    <div id="results">
-      <span id="final_span" class="final"></span>
-      <span id="interim_span" class="interim"></span>
-      <p>
-    </div>
-
-    <div>
-      <textarea id='mytextarea'></textarea>
-    </div>
-    <script>
-   
-    var myElem = document.getElementById('mytextarea');
-    myElem.style.width = 800;
-    myElem.style.height = 200;
-     
-    // 화면에 s가 가리키는 문자열을 출력하는 Log 함수를 정의합니다.
-    function Log(s) {
-    var myElem = document.getElementById('mytextarea');
-    myElem.value += (s + '\n'); // 자동으로 개행이 되게 만듭니다.
-    }
     var default_language = 'ko-KR';
 
     var create_email = false;
@@ -141,7 +78,6 @@
         }
         var enter = '<br>'
         input_array(final_transcript);
-        Log(final_transcript);
         final_transcript = capitalize(final_transcript);
         final_span.innerHTML = linebreak(final_transcript);
         interim_span.innerHTML = linebreak(interim_transcript);
@@ -160,7 +96,7 @@
     socket.on('data', function(data)
     {
       db_data = data;
- //     Log(db_data);
+      document.write(db_data);
     })
     socket.on('responseurl', function(data)
     {
@@ -193,7 +129,7 @@
       'version = 1'
       ];
       $.getJSON(url, JSONparse);
-//      Log(url);
+//      document.write(url);
         function JSONparse(data)
       {
           print_data(db_status,db_data, data);
@@ -212,52 +148,46 @@
          if(word == "오늘")
         {
           console.log("today");
-          Log(json_data.weather.summary[0].today.sky.name)
-          Log("최고 온도")
-          Log(json_data.weather.summary[0].today.temperature.tmax)
-          Log("최저 온도")
-          Log(json_data.weather.summary[0].today.temperature.tmin)
+          document.write(json_data.weather.summary[0].today.sky.name)
+          document.write("최고 온도", json_data.weather.summary[0].today.temperature.tmax)
+          document.write("최저 온도", json_data.weather.summary[0].today.temperature.tmin)
         }
         else if(word == "내일")
         {
-          Log(json_data.weather.summary[0].tomorrow.sky.name)
-          Log("최고 온도 :")
-          Log(json_data.weather.summary[0].tomorrow.temperature.tmax)
-          Log("최저 온도 :")
-          Log(json_data.weather.summary[0].tomorrow.temperature.tmin)
+          document.write(json_data.weather.summary[0].tomorrow.sky.name)
+          document.write("최고 온도", json_data.weather.summary[0].tomorrow.temperature.tmax)
+          document.write("최저 온도", json_data.weather.summary[0].tomorrow.temperature.tmin)
         }
         else if(word == "어제")
         {
-          Log(json_data.weather.summary[0].yesterday.sky.name)
-          Log("최고 온도 :")
-          Log(json_data.weather.summary[0].yesterday.temperature.tmax)
-          Log("최저 온도 :")
-          Log(json_data.weather.summary[0].yesterday.temperature.tmin)
+          document.write(json_data.weather.summary[0].yesterday.sky.name)
+           document.write("최고 온도", json_data.weather.summary[0].yesterday.temperature.tmax)
+          document.write("최저 온도", json_data.weather.summary[0].yesterday.temperature.tmin)
         } 
         else if(word == "자외선" || word == "자외선지수")
         {
-          Log(json_data.weather.wIndex.uvindex[0].day01.comment);
+          document.write(json_data.weather.wIndex.uvindex[0].day01.comment);
         }
         else if(word == "빨래")
         {
-          Log(json_data.weather.wIndex.laundry[0].day01.comment);
+          document.write(json_data.weather.wIndex.laundry[0].day01.comment);
         }
         else if(word == "체감" || word =="체감온도")
        {
-          Log(json_data.weather.wIndex.wctIndex[0].current.index);
-          Log("4시간 뒤 체감온도는");
-          Log(json_data.weather.wIndex.wctIndex[0].forecast.index4hour);
-          Log("입니다.");
+          document.write(json_data.weather.wIndex.wctIndex[0].current.index);
+          document.write("4시간 뒤 체감온도는");
+          document.write(json_data.weather.wIndex.wctIndex[0].forecast.index4hour);
+          document.write("입니다.");
        }
 
     }
     else if (status == "세차")
     {
-      Log(json_data.weather.wIndex.carWash[0].comment)
+      document.write(json_data.weather.wIndex.carWash[0].comment)
     }
     else if(status == "대화")
     {
-      Log(json_data);
+      document.write(json_data);
     }
         // else if(status == "체감" || status == "체감온도" || status=="온도")
         // {
@@ -358,7 +288,3 @@
     }
 
     var current_style;
-
-    </script>
-  </body>
-</html>
